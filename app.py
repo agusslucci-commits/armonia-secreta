@@ -4,8 +4,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 # Habilitar CORS para todos los endpoints que empiecen con /api/
-CORS(app, resources={r"/api/*": {"origins": "*"}})
-
+CORS(app, resources={r"/api/*": {"origins": "https://armoniasecreta.com.ar"}})
 
 
 
