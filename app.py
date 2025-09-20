@@ -18,7 +18,7 @@ swe.set_ephe_path(EPHE_PATH)
 
 # SMTP desde variables de entorno (las vas a cargar en Render)
 SMTP_HOST = os.getenv("SMTP_HOST", "")
-SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
 SMTP_USER = os.getenv("SMTP_USER", "")
 SMTP_PASS = os.getenv("SMTP_PASS", "")
 MAIL_FROM = os.getenv("MAIL_FROM", "Armonía Secreta <no-reply@armoniasecreta.com.ar>")
