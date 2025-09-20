@@ -1,3 +1,14 @@
+from flask import Flask
+from flask_cors import CORS
+
+app = Flask(__name__)
+
+# Habilitar CORS para todos los endpoints que empiecen con /api/
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+
+
+
 import io, os, smtplib, datetime as dt
 from email.message import EmailMessage
 from flask import Flask, request, jsonify
@@ -156,7 +167,4 @@ if __name__=="__main__":
     port=int(os.environ.get("PORT","3000"))
     app.run(host="0.0.0.0", port=port)
 
-
-
-flask-cors
 
