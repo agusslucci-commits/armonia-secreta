@@ -1,3 +1,43 @@
+# arriba de todo
+import time, traceback
+
+def log(msg):
+    print(f"[AS] {msg}", flush=True)
+
+# --- Geocoding: agregar timeout y logs ---
+def geocode(city, country):
+    from geopy.geocoders import Nominatim
+    g = Nominatim(user_agent="armonia_secreta")
+    log(f"Geocode start: {city}, {country}")
+    try:
+        loc = g.geocode(f"{city}, {country}", timeout=10)  # <-- timeout 10s
+    except Exception as e:
+        log(f"Geocode error: {e}")
+        return None, None
+    if not loc:
+        log("Geocode not found")
+        return None, None
+    log(f"Geocode ok: {loc.latitude}, {loc.longitude}")
+    return float(loc.latitude), float(loc.longitude)
+
+# --- SMTP: agregar timeout y logs ---
+def enviar_pdf(destino, asunto, html, pdf_bytes, filename):
+    log("SMTP connect...")
+    msg = EmailMessage()
+    msg["From"] = MAIL_FROM; msg["To"] = destino; msg["Subject"] = asunto
+    msg.set_content("Tu carta natal está adjunta.")
+    msg.add_alternative(html, subtype="html")
+    msg.add_attachment(pdf_bytes.getvalue(), maintype="application", subtype="pdf", filename=filename)
+
+    # timeout de socket SMTP en 15s
+    with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=15) as s:
+        s.starttls()
+        log("SMTP login...")
+        s.login(SMTP_USER, SMTP_PASS)
+        log("SMTP send_message...")
+        s.send_message(msg)
+    log("SMTP done.")
+
 # app.py — Armonía Secreta (Swiss Ephemeris + PDF + Email)
 import io, os, smtplib, datetime as dt, traceback
 from email.message import EmailMessage
